@@ -1,0 +1,23 @@
+name: main
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+on: [push]
+jobs:
+  Explore-GitHub-Actions:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Checkout
+          uses: actions/checkout@v2
+          #with:
+            #repository: rpania30/jsonex
+            #submodules: 'true'
+            #path: './depencies/vtk'
+            #ref: a1aa7fd4e2398c72827777ec5417d67915ff4da3
+        - name: Set up JDK 8
+          uses: actions/setup-java@v3
+          with:
+            java-version: '8'
+            distribution: 'adopt'
+            cache: maven
+        - run: mvn test-compile -pl ignite-3 -am
+        - run: mvn -pl ignite-3 test -Dtest=org.apache.ignite.internal.storage.pagememory.mv.PageMemoryMvPartitionStorageTest#abortOfInsertMakesRowNonExistentForReadWithTxId
+        - run: mvn -pl ignite-3 edu.illinois:nondex-maven-plugin:1.1.2:nondex -Dtest=org.apache.ignite.internal.storage.pagememory.mv.PageMemoryMvPartitionStorageTest#abortOfInsertMakesRowNonExistentForReadWithTxId
